@@ -2,6 +2,7 @@
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #import Flask
 from flask import Flask
+import render_template
 
 #to create an instance of a Flask object
     #an instance of a Flask object
@@ -15,7 +16,10 @@ app = Flask(__name__)
     #route handling - calling the index function would triggered it to be run on the server
 @app.route('/')
 def index():
-    return "Hello Web World!"
+    # return "Hello Web World!"
+        # below - the argument of this is the path to the template relative to the templates folder
+            # using a Jinja2 template to do the same as the line above
+    return render_template('index.html')
 
     """
         To run this:
