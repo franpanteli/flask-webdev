@@ -3,11 +3,15 @@
 #import Flask
 from flask import Flask
 import render_template
+    #import Bootstrap
+from flask_bootstrap import Bootstrap
 
 #to create an instance of a Flask object
     #an instance of a Flask object
 app = Flask(__name__)
 
+    #an instance of a bootstrap application
+bootstrap = Bootstrap(app)
 
 #routing
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
