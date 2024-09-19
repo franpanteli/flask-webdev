@@ -1,3 +1,12 @@
+{% comment %}
+    -> this file is the starting point for future templates
+    -> you can extend blocks in Jinja from boostrap which already has these blocks installed
+    -> the .py file is the app on the server side, which does route handling
+    -> that allows us to dynamically fill the content of html pages (base ones which can inherit from each other)
+    -> in those html pages, this is done with Jinja variables / blocks for control structures
+    -> this can be generalised into Flask which contains templates that can be used
+    -> it's like sass, but for html
+{% endcomment %}
 {% extends 'bootstrap/base.html' %}
 {% block title %}{{super()}}Ragtime -{% endblock %}
 {% block navbar %}
