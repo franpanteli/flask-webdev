@@ -1,7 +1,9 @@
 #module import
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #import Flask
-from flask import Flask
+from flask import Flask, render_template, redirect, url_for, session, flash
+    # flash is for showing messages to the user
+    # in this case after adding forms to the page
 import render_template
     #import Bootstrap
 from flask_bootstrap import Bootstrap
@@ -32,16 +34,26 @@ bootstrap = Bootstrap(app)
 
 #this is a decorator - for when someone visits the route URL
     #route handling - calling the index function would triggered it to be run on the server
-@app.route('/')
+    #this includes arguments for forms (the second and third)
+@app.route('/', methods=['GET', 'POST'], form=form)
 def index():
     #for a form - this was initialised above
     form = NameForm()
+    # name = None
+    if form.validate_on_submit():
+        # name = form.name.data  # Get the value from the form
+        session['name'] = form.name.data
+        # form.name.data = ""  # Reset the form field to an empty string
+        flash('Great! We hope you enjoy the community')
+        return redirect(url_for('index'))
 
     # return "Hello Web World!"
         # below - the argument of this is the path to the template relative to the templates folder
             # using a Jinja2 template to do the same as the line above
             # the second argument for this is the template it is parsed into, to render
-    return render_template('index.html', form=form)
+
+    return render_template('index.html', form=form, name=session.get('name'))
+                # return render_template('index.html', form=form, name=name)
 
     """
         To run this:

@@ -32,6 +32,17 @@
 
 {% block content %}
 <div class="container">
+
+{% comment %}
+    -> get_flashed_messages contains a list of messages, to flash to the user on the page
+{% endcomment %}
+
+    {% for msg in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="done" data-dismiss="alert">&times;</button>
+            {{ msg }}
+        </div>
+    {% endfor %}
     {% block page_content %}{% endblock  %}
 </div>
 {% endblock content %}
