@@ -1,1 +1,36 @@
+{% comment %} <h1>Hello Web World!</h1> {% endcomment %}
+
+{% extends "base.html" %}
+
+{% block title %}{{ super() }} Home{% endblock %}
+
+{% block page_content %}
 <h1>Hello Web World!</h1>
+
+<form method="POST">
+    {% comment %} to hide the user data {% endcomment %}
+    {{ form.hidden_tag() }}
+
+    {% comment %} to create the form {% endcomment %}
+    <div>
+        {{ form.name.label }} <!-- field label - this shows as a textbox -->
+        {{ form.name(id='my-field-id') }} <!-- field input with custom ID -->
+    </div>
+    <div>
+        {{ form.submit() }} <!-- submit button -->
+
+{% comment %}
+        -> we now have a label, a field and a submit button being rendered
+        -> this can be checked in the browser by inspecting the page
+{% endcomment %}
+
+    </div>
+</form>
+{% endblock %}
+
+{% comment %}
+    To use Flask-boostrap to render a form, instead of manually
+    -> {% import "bootstrap/wtf.html" as wtf %}
+    -> {{ wtf.quick_form(form) }}
+    -> then checking this in the browser to check that it works
+{% endcomment %}

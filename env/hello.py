@@ -1,4 +1,4 @@
-#importing FLask
+#module import
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #import Flask
 from flask import Flask
@@ -6,9 +6,23 @@ import render_template
     #import Bootstrap
 from flask_bootstrap import Bootstrap
 
+    #importing the base class for creating forms
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
+
+#to create a form
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+class NameForm(FlaskForm):
+    name = StringField("What is your name?", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
 #to create an instance of a Flask object
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     #an instance of a Flask object
 app = Flask(__name__)
+    #a secret key for creating forms
+app.config['SECRET_KEY'] = "keep it a secret, at all costs"
 
     #an instance of a bootstrap application
 bootstrap = Bootstrap(app)
@@ -20,10 +34,14 @@ bootstrap = Bootstrap(app)
     #route handling - calling the index function would triggered it to be run on the server
 @app.route('/')
 def index():
+    #for a form - this was initialised above
+    form = NameForm()
+
     # return "Hello Web World!"
         # below - the argument of this is the path to the template relative to the templates folder
             # using a Jinja2 template to do the same as the line above
-    return render_template('index.html')
+            # the second argument for this is the template it is parsed into, to render
+    return render_template('index.html', form=form)
 
     """
         To run this:
