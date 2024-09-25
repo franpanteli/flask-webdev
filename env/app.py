@@ -52,7 +52,8 @@ class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
-    users = db.relationship('User', backref='role')
+        #dynamic stops the query from automatically running
+    users = db.relationship('User', backref='role', lazy='dynamic')
 
     def __repr__(self):
         return f"<Role {self.name}>"
@@ -66,17 +67,34 @@ class User(db.Model):
     def __repr__(self):
         return f"<User {self.username}>"
 
+    #so that you don't have to manually add objects to the application context when you begin a shell session
+@app.shell_context_processor
+def make_shell_context():
+        return dict(db=db, User=User, Role=Role)
+
 #this is a decorator - for when someone visits the route URL
     #route handling - calling the index function would triggered it to be run on the server
     #this includes arguments for forms (the second and third)
+
 @app.route('/', methods=['GET', 'POST'], form=form)
 def index():
     #for a form - this was initialised above
     form = NameForm()
     # name = None
     if form.validate_on_submit():
+        name_entered = form.name.data
+        user = User.query.filter_by(username=name_entered).first()
+        if  user is None:
+            user = User(username=name_entered)
+            db.session.add(user)
+            db.session.commit()
+            session['known'] = False
+        else:
+            session['known'] = True
+
         # name = form.name.data  # Get the value from the form
-        session['name'] = form.name.data
+        session['name'] = name_entered
+        # session['name'] = form.name.data
         # form.name.data = ""  # Reset the form field to an empty string
         flash('Great! We hope you enjoy the community')
         return redirect(url_for('index'))
@@ -88,6 +106,7 @@ def index():
 
     return render_template('index.html', form=form, name=session.get('name'))
                 # return render_template('index.html', form=form, name=name)
+        known=session.get('known', False)
 
     """
         To run this:

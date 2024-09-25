@@ -8,7 +8,17 @@
 {% comment %} <h1>Hello Web World!</h1> {% endcomment %}
 {% comment %} to greet a certain user {% endcomment %}
 <h1>Welcome to Ragtime, {% if name %}{{ name }}{% else %}Anonymous{% endif %}!</h1>
-<p>Enjoy your stay.</p>
+
+{% comment %} to give the user a different messaged based on their name {% endcomment %}
+    {% comment %} this shows both messages when names are entered multiple times {% endcomment %}
+    {% comment %} when the same name is entered twice, the second time it is entered it should already exist in the database {% endcomment %}
+<div>
+    {% if not known %}
+    <p>Mucho gusto! (Nice to meet you!)</p>
+    {% else %}
+    <p>Enjoy your stay.</p>
+    {% endif %}
+</div>
 
 <form method="POST">
     {% comment %} to hide the user data {% endcomment %}
