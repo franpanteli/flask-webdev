@@ -12,12 +12,17 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
+    #for SQLAlchemy
+import os
+from flask_sqlalchemy import SQLAlchemy
 
 #to create a form
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 class NameForm(FlaskForm):
     name = StringField("What is your name?", validators=[DataRequired()])
     submit = SubmitField("Submit")
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 #to create an instance of a Flask object
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -26,11 +31,40 @@ app = Flask(__name__)
     #a secret key for creating forms
 app.config['SECRET_KEY'] = "keep it a secret, at all costs"
 
+    #SQLAlchemy
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    f'sqlite:///{os.path.join(basedir, "data-dev.sqlite")}'
+
+        #to supress a warning when doing this
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+        #initialising the database object
+db = SQLAlchemy(app)
+
     #an instance of a bootstrap application
 bootstrap = Bootstrap(app)
 
 #routing
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#defining a model (database) for user roles
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    users = db.relationship('User', backref='role')
+
+    def __repr__(self):
+        return f"<Role {self.name}>"
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+    def __repr__(self):
+        return f"<User {self.username}>"
 
 #this is a decorator - for when someone visits the route URL
     #route handling - calling the index function would triggered it to be run on the server
