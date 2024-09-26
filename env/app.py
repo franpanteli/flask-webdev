@@ -15,6 +15,8 @@ from wtforms.validators import DataRequired
     #for SQLAlchemy
 import os
 from flask_sqlalchemy import SQLAlchemy
+    #importing the migrate object into the app
+from flask_migrate import Migrate
 
 #to create a form
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -40,6 +42,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
         #initialising the database object
 db = SQLAlchemy(app)
+migrate = Migrate(app, db,  render_as_batch= True )
 
     #an instance of a bootstrap application
 bootstrap = Bootstrap(app)
