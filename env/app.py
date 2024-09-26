@@ -67,6 +67,9 @@ class User(db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
+    #to add an age collumn to the database
+    age = db.Column(db.Integer)
+
     def __repr__(self):
         return f"<User {self.username}>"
 
