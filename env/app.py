@@ -24,21 +24,10 @@ class NameForm(FlaskForm):
     name = StringField("What is your name?", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-
 #to create an instance of a Flask object
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     #an instance of a Flask object
 app = Flask(__name__)
-    #a secret key for creating forms
-app.config['SECRET_KEY'] = "keep it a secret, at all costs"
-
-    #SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = \
-    f'sqlite:///{os.path.join(basedir, "data-dev.sqlite")}'
-
-        #to supress a warning when doing this
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
         #initialising the database object
 db = SQLAlchemy(app)
