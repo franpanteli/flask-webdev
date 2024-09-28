@@ -1,20 +1,11 @@
 #module import
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#import Flask
-from flask import Flask, render_template, redirect, url_for, session, flash
-    # flash is for showing messages to the user
-    # in this case after adding forms to the page
-import render_template
-    #import Bootstrap
-from flask_bootstrap import Bootstrap
-
     #importing the base class for creating forms
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
     #for SQLAlchemy
 import os
-from flask_sqlalchemy import SQLAlchemy
     #importing the migrate object into the app
 from flask_migrate import Migrate
 
@@ -26,42 +17,11 @@ class NameForm(FlaskForm):
 
 #to create an instance of a Flask object
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    #an instance of a Flask object
-app = Flask(__name__)
-
         #initialising the database object
-db = SQLAlchemy(app)
 migrate = Migrate(app, db,  render_as_batch= True )
-
-    #an instance of a bootstrap application
-bootstrap = Bootstrap(app)
 
 #routing
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-#defining a model (database) for user roles
-class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-        #dynamic stops the query from automatically running
-    users = db.relationship('User', backref='role', lazy='dynamic')
-
-    def __repr__(self):
-        return f"<Role {self.name}>"
-
-class User(db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), unique=True, index=True)
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-
-    #to add an age collumn to the database
-    age = db.Column(db.Integer)
-
-    def __repr__(self):
-        return f"<User {self.username}>"
-
     #so that you don't have to manually add objects to the application context when you begin a shell session
 @app.shell_context_processor
 def make_shell_context():

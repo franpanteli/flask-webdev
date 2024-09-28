@@ -1,4 +1,4 @@
-# Coppied into this file from app.py
+ # Coppied into this file from app.py
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # basedir = os.path.abspath(os.path.dirname(__file__))
@@ -20,7 +20,7 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-class Config:
+class Config():
     SECRET_KEY = "keep it a secret, at all costs"
     SQLALCHEMY_DATABASE_URI = f'sqlite:///{os.path.join(basedir, "data-dev.sqlite")}'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
