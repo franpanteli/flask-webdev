@@ -7,7 +7,19 @@
 {% block page_content %}
 {% comment %} <h1>Hello Web World!</h1> {% endcomment %}
 {% comment %} to greet a certain user {% endcomment %}
-<h1>Welcome to Ragtime, {% if name %}{{ name }}{% else %}Anonymous{% endif %}!</h1>
+
+{% comment %}
+    (Below) this is the old version of the h1 block which comes after the following line
+{% endcomment %}
+{% comment %} <h1>Welcome to Ragtime, {% if name %}{{ name }}{% else %}Anonymous{% endif %}!</h1> {% endcomment %}
+
+<h1>Welcome to Ragtime,
+    {% if current_user.is_authenticated %}
+      {{ current_user.username }}
+    {% else %}
+      Anonymous
+    {% endif %}
+!</h1>
 
 {% comment %} to give the user a different messaged based on their name {% endcomment %}
     {% comment %} this shows both messages when names are entered multiple times {% endcomment %}
